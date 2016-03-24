@@ -8,8 +8,10 @@ Brazilian Fields and Widges for Plone & Archetypes
 Overview
 ----------------
 
-Products.BrFieldsAndWidgets is a product that aims to help Brazilian developers 
-to deploy AT based content types on a Plone  site. 
+Products.BrFieldsAndWidgets is a product that aims to help Brazilian developers
+to deploy AT based content types on a Plone  site.
+This repository was forked from https://github.com/collective/Products.BrFieldsAndWidgets.
+The phonenumber field covers all DDDs with NINTH digits for mobile phones.
 
 
 Requirements
@@ -80,6 +82,8 @@ to):
     
     * Escola Sao Paulo
 
+    * Prodam SP
+
 
 Credits
 -------
@@ -90,3 +94,4 @@ Credits
 
     * Gustavo Lepri (lepri at simplesconsultoria dot com dot br) - Fixes
 
+    * Luiz Ferreira - Updates

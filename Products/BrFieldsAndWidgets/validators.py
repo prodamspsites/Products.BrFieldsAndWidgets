@@ -15,12 +15,14 @@ from Products.BrFieldsAndWidgets import MessageFactory as _
 from Products.BrFieldsAndWidgets.config import USE_BBB_VALIDATORS
 
 listValidators = []
+DDD_NINTH_DIGIT = [11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38, 71, 73, 74, 75,
+                   77, 79, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99]
 
 
 class ValidadorCPF:
     """
     Validador para verificar se o CPF informado e valido
-    Baseado em http://www.pythonbrasil.com.br/moin.cgi/VerificadorDeCPF .
+    Baseado em http://www.pythonbrasil.com.br/moin.cgi/VerificadorDeCPF.
     """
 
     if USE_BBB_VALIDATORS:
@@ -34,7 +36,6 @@ class ValidadorCPF:
         self.description = description
 
     def __call__(self, value, *args, **kw):
-        cpf = value
         cpf = ''.join([c for c in value if c.isdigit()])
 
         if len(cpf) != 11:
@@ -49,8 +50,7 @@ class ValidadorCPF:
             ltmp = [int(i) for i in list(tmp)]
 
             while len(ltmp) < 11:
-                R = sum(map(lambda(i, v): (len(ltmp)+1-i)*v,
-                                         enumerate(ltmp))) % 11
+                R = sum(map(lambda(i, v): (len(ltmp)+1-i)*v, enumerate(ltmp))) % 11
 
                 if R > 1:
                     f = 11 - R
@@ -62,16 +62,13 @@ class ValidadorCPF:
                 return _(u"O dígito verificador do CPF não confere.")
         return True
 
-
-listValidators.append(ValidadorCPF('isCPF',
-                                   title=_(u'Validator de CPF'),
-                                   description=''))
+listValidators.append(ValidadorCPF('isCPF', title=_(u'Validator de CPF'), description=''))
 
 
 class ValidadorCNPJ:
     """
     Validador para verificar se o CNPJ informado e valido.
-    Baseado em http://www.pythonbrasil.com.br/moin.cgi/VerificadorDeCnpj
+    Baseado em http://www.pythonbrasil.com.br/moin.cgi/VerificadorDeCnpj.
     """
 
     if USE_BBB_VALIDATORS:
@@ -91,20 +88,16 @@ class ValidadorCNPJ:
         cnpj = digits[:12]
         prod = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
         while len(cnpj) < 14:
-            r = sum([x*y for (x, y) in zip(cnpj, prod)])%11
+            r = sum([x*y for (x, y) in zip(cnpj, prod)]) % 11
             if r > 1:
                 f = 11 - r
             else:
                 f = 0
             cnpj.append(f)
             prod.insert(0, 6)
-        return ((cnpj == digits) and True) or \
-                _(u"O CNPJ informado é inválido.")
+        return ((cnpj == digits) and True) or _(u"O CNPJ informado é inválido.")
 
-
-listValidators.append(ValidadorCNPJ('isCNPJ',
-                                    title=_(u'Validator de CNPJ'),
-                                    description=''))
+listValidators.append(ValidadorCNPJ('isCNPJ', title=_(u'Validator de CNPJ'), description=''))
 
 
 class ValidadorCEP:
@@ -132,19 +125,17 @@ class ValidadorCEP:
             return _(u"O cep informado é inválido.")
         return True
 
-listValidators.append(ValidadorCEP('isCEP',
-                                   title=_(u'Validator de CEP'),
-                                   description=''))
+listValidators.append(ValidadorCEP('isCEP', title=_(u'Validator de CEP'), description=''))
 
 
 class ValidadorBrPhone:
     """
     Validador para telefones brasileiros. Suportando os formatos:
-        XXXXXXXXXX (11955553211) - Novos celulares
-        XXXXXXXXXX (1155553211) - Novos telefones
-        XXXXXXXXX  (115552133) - Antigos telefones
-        0n00XXXXXXX (n sendo 3 ou 8)
-        0n00XXXXXX (n sendo 3 ou 8)
+        XXXXXXXXXXX (11955553211) - Novos celulares. Veja lista DDD_NINTH_DIGIT.
+        XXXXXXXXXX (1155553211) - Novos telefones.
+        XXXXXXXXX  (115552133) - Antigos telefones.
+        0n00XXXXXXX (n sendo 3 ou 8).
+        0n00XXXXXX (n sendo 3 ou 8).
     """
 
     if USE_BBB_VALIDATORS:
@@ -158,23 +149,20 @@ class ValidadorBrPhone:
         self.description = description
 
     def __call__(self, value, *args, **kw):
-
-        if value.startswith('+'):
-            return _(u"Telefone inválido")
-        phone = ''.join([c for c in value if c.isdigit()])
-        len_phone = len(phone)
         status = False
-#        import pdb;pdb.set_trace()
-        if phone.startswith('0'):
-            if self.validate_cng(phone[:4]) and (len_phone in [10, 11]):
-                status = True
-        elif self.validate_ddd(phone[:2]) and (len_phone in [9, 10]):
-            status = True
-        elif (self.validate_ddd(phone[:2])) and (phone[:2] == '11'):
-            if (len_phone == 11) and  (phone[2] == '9'):
-                # validate new cellphones
-                status = True
+        if value.isdigit():
+            phone = value
+            ddd = phone[:2]
+            len_phone = len(phone)
 
+            if phone.startswith('0'):
+                if self.validate_cng(phone[:4]) and len_phone in [10, 11]:
+                    status = True
+            if self.validate_ddd(ddd):
+                if len_phone in [9, 10]:
+                    status = True
+                if len_phone == 11 and ddd in DDD_NINTH_DIGIT:
+                    status = True
         return status or _(u"Telefone inválido")
 
     def validate_ddd(self, value):
@@ -195,10 +183,7 @@ class ValidadorBrPhone:
         except KeyError:
             return False
 
-
-listValidators.append(ValidadorBrPhone('isBrPhone',
-                                       title=_(u'Validator de Telefone'),
-                                       description=''))
+listValidators.append(ValidadorBrPhone('isBrPhone', title=_(u'Validator de Telefone'), description=''))
 
 
 for validador in listValidators:
