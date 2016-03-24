@@ -8,8 +8,10 @@ Brazilian Fields and Widges for Plone & Archetypes
 Overview
 ----------------
 
-Products.BrFieldsAndWidgets is a product that aims to help Brazilian developers 
-to deploy AT based content types on a Plone  site. 
+    Products.BrFieldsAndWidgets is a product that aims to help Brazilian developers
+    to deploy AT based content types on a Plone  site.
+    This repository was forked from https://github.com/collective/Products.BrFieldsAndWidgets.
+    The phonenumber field covers all DDDs with NINTH digits for mobile phones.
 
 
 Requirements
@@ -18,10 +20,10 @@ Requirements
     * Plone 3.1.x (http://plone.org/products/plone)
     * Plone 4.0.x (http://plone.org/products/plone)
     * Plone 4.1.x (http://plone.org/products/plone)
-    
+
 Installation
 ------------
-    
+
 To enable this product,on a buildout based installation:
 
     1. Edit your buildout.cfg and add ``Products.BrFieldsAndWidgets``
@@ -29,12 +31,12 @@ To enable this product,on a buildout based installation:
 
         [buildout]
         ...
-        eggs = 
+        eggs =
             Products.BrFieldsAndWidgets
-    
 
-If another package depends on the Products.BrFieldsAndWidgets egg or 
-includes its zcml directly you do not need to specify anything in the 
+
+If another package depends on the Products.BrFieldsAndWidgets egg or
+includes its zcml directly you do not need to specify anything in the
 buildout configuration: buildout will detect this automatically.
 
 After updating the configuration you need to run the ''bin/buildout'',
@@ -49,7 +51,7 @@ Activate it
 Go to the 'Site Setup' page in the Plone interface and click on the
 'Add/Remove Products' link.
 
-Choose the product **Brazilian Fields** (check checkbox at its 
+Choose the product **Brazilian Fields** (check checkbox at its
 left side) and click the 'Activate' button.
 
 
@@ -59,26 +61,28 @@ Uninstall
 Go to the 'Site Setup' page in the Plone interface and click on the
 'Add/Remove Products' link.
 
-Choose the product **Brazilian Fields**, which should be under 
-*Activated add-ons*, (check checkbox at its left side) and click the 
+Choose the product **Brazilian Fields**, which should be under
+*Activated add-ons*, (check checkbox at its left side) and click the
 'Deactivate' button.
 
-.. note:: You may have to empty your browser cache and save your resource 
+.. note:: You may have to empty your browser cache and save your resource
           registries in order to see the effects of the product installation.
 
 
 Sponsoring
 ----------
 
-Development of this product was sponsored by `Simples Consultoria 
-<http://www.simplesconsultoria.com.br/>`_ customers, including (but not limited 
+Development of this product was sponsored by `Simples Consultoria
+<http://www.simplesconsultoria.com.br/>`_ customers, including (but not limited
 to):
 
     * `Rede Brasil Atual <http://www.redebrasilatual.com.br/>`_
-    
+
     * `Essencis <http://www.essencis.com.br/>`_
-    
+
     * Escola Sao Paulo
+
+    * Prodam SP
 
 
 Credits
@@ -90,3 +94,4 @@ Credits
 
     * Gustavo Lepri (lepri at simplesconsultoria dot com dot br) - Fixes
 
+    * Luiz Ferreira - Updates
